@@ -1,0 +1,85 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+/* Begin PBXBuildFile section */
+		APP_DELEGATE /* AppDelegate.swift */ = {isa = PBXBuildFile; fileRef = APP_DELEGATE_FILE /* AppDelegate.swift */; };
+		SCENE_DELEGATE /* SceneDelegate.swift */ = {isa = PBXBuildFile; fileRef = SCENE_DELEGATE_FILE /* SceneDelegate.swift */; };
+		CONTENT_VIEW /* ContentView.swift */ = {isa = PBXBuildFile; fileRef = CONTENT_VIEW_FILE /* ContentView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		APP_DELEGATE_FILE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		SCENE_DELEGATE_FILE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		CONTENT_VIEW_FILE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		PRODUCT_FILE /* iOSLocalAIAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSLocalAIAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		PROJECT_FILE /* project.pbxproj */ = {isa = PBXFileReference; explicitFileType = text.pbxproject; name = project.pbxproj; path = project.pbxproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		SOURCE_GROUP = {
+			isa = PBXGroup;
+			children = (
+				APP_DELEGATE_FILE,
+				SCENE_DELEGATE_FILE,
+				CONTENT_VIEW_FILE,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		PROJECT_GROUP = {
+			isa = PBXGroup;
+			children = (
+				SOURCE_GROUP,
+				PROJECT_FILE,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		APP_TARGET /* iOSLocalAIAssistant */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BUILD_CONFIG_LIST;
+			buildPhases = (
+				SOURCES_PHASE,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iOSLocalAIAssistant;
+			productName = iOSLocalAIAssistant;
+			productReference = PRODUCT_FILE;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		PROJECT_OBJECT = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = PROJECT_BUILD_CONFIG_LIST;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = PROJECT_GROUP;
+			productRefGroup = PRODUCT_GROUP;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				APP_TARGET,
+			);
+		};
+/* End PBXProject section */
+};
