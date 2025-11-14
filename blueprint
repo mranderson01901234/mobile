@@ -1,0 +1,1737 @@
+I'll create a comprehensive blueprint artifact for the iOS app with a clean, monochrome UI design and complete technical architecture.
+
+```markdown
+# iOS Local AI Assistant - Complete Blueprint
+
+## Product Overview
+
+**Name:** [Product Name TBD]
+**Tagline:** "Your AI that keeps secrets"
+**Platform:** iOS 17.0+
+**Target Devices:** iPhone 12+ (A14 Bionic minimum)
+
+---
+
+## Design System
+
+### Color Palette (Monochrome)
+
+```
+Primary Colors:
+- Pure Black: #000000 (text, primary elements)
+- Pure White: #FFFFFF (backgrounds, contrast)
+- Gray 900: #1a1a1a (dark backgrounds, cards)
+- Gray 700: #404040 (secondary text)
+- Gray 500: #737373 (tertiary text, borders)
+- Gray 300: #d4d4d4 (dividers, subtle borders)
+- Gray 100: #f5f5f5 (subtle backgrounds)
+
+Accent (Minimal Use):
+- Success Green: #22c55e (local processing indicator)
+- Alert Red: #ef4444 (errors, warnings)
+
+Semantic Colors:
+- Background Primary: #FFFFFF (light mode), #000000 (dark mode)
+- Background Secondary: #f5f5f5 (light mode), #1a1a1a (dark mode)
+- Text Primary: #000000 (light mode), #FFFFFF (dark mode)
+- Text Secondary: #404040 (light mode), #d4d4d4 (dark mode)
+- Border: #d4d4d4 (light mode), #404040 (dark mode)
+```
+
+### Typography
+
+```
+Font Family: SF Pro (native iOS system font)
+
+Hierarchy:
+- Display Large: 32pt, Bold, -0.5 tracking
+- Display Medium: 28pt, Bold, -0.5 tracking
+- Heading 1: 24pt, Semibold, -0.3 tracking
+- Heading 2: 20pt, Semibold, -0.2 tracking
+- Heading 3: 18pt, Semibold, -0.2 tracking
+- Body Large: 17pt, Regular, -0.2 tracking
+- Body: 15pt, Regular, 0 tracking
+- Body Small: 13pt, Regular, 0 tracking
+- Caption: 11pt, Regular, 0.1 tracking
+
+Message Text:
+- User Message: 16pt, Regular
+- AI Message: 16pt, Regular
+- Code Blocks: SF Mono, 14pt
+```
+
+### Spacing System
+
+```
+Base unit: 4px
+
+Scale:
+- 2xs: 4px
+- xs: 8px
+- sm: 12px
+- md: 16px
+- lg: 24px
+- xl: 32px
+- 2xl: 48px
+- 3xl: 64px
+
+Screen Margins: 16px horizontal
+Card Padding: 16px
+Message Bubble Padding: 12px horizontal, 10px vertical
+```
+
+### Component Library
+
+**Buttons:**
+```
+Primary Button:
+- Background: Black (light mode), White (dark mode)
+- Text: White (light mode), Black (dark mode)
+- Height: 48px
+- Border Radius: 12px
+- Font: 16pt Semibold
+
+Secondary Button:
+- Background: Transparent
+- Border: 1px solid gray-300
+- Text: Black (light mode), White (dark mode)
+- Height: 48px
+- Border Radius: 12px
+- Font: 16pt Semibold
+
+Icon Button:
+- Size: 40x40px
+- Border Radius: 10px
+- Background: gray-100 (hover state)
+```
+
+**Input Fields:**
+```
+Text Input:
+- Height: 48px (single line), auto (multi-line)
+- Border: 1px solid gray-300
+- Border Radius: 12px
+- Padding: 12px horizontal
+- Focus State: 2px border, black
+- Font: 16pt Regular
+
+Chat Input:
+- Min Height: 44px
+- Max Height: 120px (then scroll)
+- Border: 1px solid gray-300
+- Border Radius: 24px
+- Padding: 12px horizontal, 10px vertical
+```
+
+**Cards:**
+```
+Standard Card:
+- Background: white (light), gray-900 (dark)
+- Border: 1px solid gray-300 (light), gray-700 (dark)
+- Border Radius: 16px
+- Padding: 16px
+- Shadow: 0 1px 3px rgba(0,0,0,0.1) (light mode only)
+```
+
+---
+
+## Screen Designs
+
+### 1. Chat Interface (Main Screen)
+
+```
+┌─────────────────────────────────────┐
+│  [☰]  New Chat           [•••]      │ ← Navigation Bar (44pt height)
+├─────────────────────────────────────┤
+│                                     │
+│   ┌─────────────────────────────┐   │
+│   │ Hey, can you analyze this   │   │ ← User Message (right-aligned)
+│   │ contract for key terms?     │   │   Background: gray-100/gray-900
+│   └─────────────────────────────┘   │   Max width: 75% screen
+│   10:24 AM                          │   Border radius: 18px
+│                                     │
+│ ┌───────────────────────────────┐   │
+│ │ 🔒 I'll analyze that locally  │   │ ← AI Message (left-aligned)
+│ │                               │   │   Background: white/black
+│ │ Based on the contract you     │   │   Border: 1px solid gray-300
+│ │ uploaded, the key terms are:  │   │   Max width: 85% screen
+│ │                               │   │
+│ │ • Payment: Net 30             │   │
+│ │ • Term: 12 months             │   │
+│ │ • Termination: 60 days notice │   │
+│ │                               │   │
+│ │ ┌───────────────────────────┐ │   │
+│ │ │ 📄 Contract_2024.pdf      │ │   │ ← Referenced Doc
+│ │ │ Page 3, Section 4.2       │ │   │   Inline card
+│ │ └───────────────────────────┘ │   │
+│ └───────────────────────────────┘   │
+│ 10:24 AM • Fast Model              │   ← Timestamp + Model
+│                                     │
+│                                     │
+│   ┌─────────────────────────────┐   │
+│   │ What about liability caps?  │   │
+│   └─────────────────────────────┘   │
+│   10:25 AM                          │
+│                                     │
+│ ┌───────────────────────────────┐   │
+│ │ 🔒 Analyzing liability        │   │ ← Streaming Response
+│ │ clauses... ▊                  │   │   Cursor animation
+│ └───────────────────────────────┘   │
+│                                     │
+├─────────────────────────────────────┤
+│  [🎤] ┃ Type a message... ┃ [📎]   │ ← Input Bar (fixed bottom)
+│        [─────────────────]          │   Height: 44pt + safe area
+└─────────────────────────────────────┘
+```
+
+**Key Features:**
+- Clean message bubbles with subtle borders
+- Timestamp below each message (small, gray text)
+- Model indicator shows which model responded
+- 🔒 icon indicates local processing
+- Inline document references (tappable cards)
+- Streaming cursor for real-time responses
+- Voice and attachment buttons always visible
+
+**Interaction States:**
+- Message tap: Select/copy text
+- Long press message: Copy, regenerate, delete options
+- Swipe message left: Quick delete
+- Document reference tap: Open document preview
+- Model indicator tap: Show model info
+
+### 2. Sidebar / Conversation List
+
+```
+┌─────────────────────────────────────┐
+│  Conversations              [+]     │ ← Header with new chat button
+├─────────────────────────────────────┤
+│  🔍 Search conversations...         │ ← Search bar
+├─────────────────────────────────────┤
+│                                     │
+│  TODAY                              │ ← Section header (gray, caps)
+│  ┌───────────────────────────────┐  │
+│  │ Contract Analysis             │  │ ← Active conversation
+│  │ What about liability caps?    │  │   (bold title, preview)
+│  │ 10:25 AM                      │  │   Black background
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │ Meeting Notes Transcription   │  │ ← Inactive conversation
+│  │ Transcribe the audio from...  │  │   (regular weight)
+│  │ 9:15 AM                       │  │   White/gray-900 bg
+│  └───────────────────────────────┘  │
+│                                     │
+│  YESTERDAY                          │
+│  ┌───────────────────────────────┐  │
+│  │ Financial Report Summary      │  │
+│  │ Summarize Q3 revenue by...    │  │
+│  │ Yesterday • 4:32 PM           │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │ Code Review                   │  │
+│  │ Review this authentication... │  │
+│  │ Yesterday • 2:18 PM           │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  THIS WEEK                          │
+│  ┌───────────────────────────────┐  │
+│  │ Research Paper Analysis       │  │
+│  │ What are the main findings... │  │
+│  │ Tuesday • 3:45 PM             │  │
+│  └───────────────────────────────┘  │
+│                                     │
+├─────────────────────────────────────┤
+│  [📚] Documents  [⚙️] Settings      │ ← Bottom navigation
+└─────────────────────────────────────┘
+```
+
+**Key Features:**
+- Grouped by recency (Today, Yesterday, This Week, Older)
+- Search across all conversations
+- Swipe to delete conversation
+- Long press for rename/archive options
+- Active conversation highlighted
+- Preview shows last message
+
+### 3. Document Library
+
+```
+┌─────────────────────────────────────┐
+│  [←]  Documents              [+]    │ ← Back button, upload button
+├─────────────────────────────────────┤
+│  🔍 Search documents...             │
+├─────────────────────────────────────┤
+│                                     │
+│  ALL DOCUMENTS (24)                 │ ← Filter chips below
+│  [All] [PDFs] [Images] [Audio]     │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │ 📄                            │  │ ← Document card
+│  │ Contract_2024.pdf             │  │
+│  │ 2.3 MB • Added 2 days ago     │  │
+│  │ Used in 3 conversations       │  │
+│  │                               │  │
+│  │ [View] [Share] [Delete]       │  │ ← Action buttons
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │ 📊                            │  │
+│  │ Financial_Report_Q3.xlsx      │  │
+│  │ 850 KB • Added 1 week ago     │  │
+│  │ Used in 1 conversation        │  │
+│  │                               │  │
+│  │ [View] [Share] [Delete]       │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │ 🖼️                             │  │
+│  │ Meeting_Notes_Scan.jpg        │  │
+│  │ 1.2 MB • Added 3 days ago     │  │
+│  │ OCR completed • Searchable    │  │ ← Status indicator
+│  │                               │  │
+│  │ [View] [Share] [Delete]       │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │ 🎤                            │  │
+│  │ Client_Meeting_Recording.m4a  │  │
+│  │ 15.4 MB • Added 5 days ago    │  │
+│  │ Transcribed • 45 min          │  │
+│  │                               │  │
+│  │ [View] [Share] [Delete]       │  │
+│  └───────────────────────────────┘  │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Key Features:**
+- Document cards with file type icons
+- Size, date, usage stats
+- Quick actions (view, share, delete)
+- Filter by file type
+- Search across document text (OCR included)
+- Drag & drop upload area (iPad)
+
+### 4. Settings Screen
+
+```
+┌─────────────────────────────────────┐
+│  [←]  Settings                      │
+├─────────────────────────────────────┤
+│                                     │
+│  MODELS                             │
+│  ┌───────────────────────────────┐  │
+│  │ ✓ Fast Model                  │  │ ← Installed, active
+│  │   2.8 GB • Bundled            │  │   Checkmark indicator
+│  │   ━━━━━━━━━━━━━━━━━━━━━━━━━━  │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │ ⬇ Balanced Model              │  │ ← Downloading
+│  │   4.7 GB • Recommended        │  │   Download icon + progress
+│  │   ━━━━━━━━━━━━━━━━░░░░░░░░░░  │  │   60% complete
+│  │   [Pause] 2.8 GB / 4.7 GB     │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │ ○ Advanced Model              │  │ ← Not downloaded
+│  │   7.2 GB • Best quality       │  │   Empty circle
+│  │   [Download]                  │  │   Download button
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │ ○ Code Model                  │  │
+│  │   4.9 GB • Programming tasks  │  │
+│  │   [Download]                  │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  PREFERENCES                        │
+│  ┌───────────────────────────────┐  │
+│  │ Auto Model Selection    [ON]  │  │ ← Toggle switches
+│  │ Battery Saver Mode      [ON]  │  │
+│  │ Voice Language       English  │  │ ← Chevron (selector)
+│  │ Theme              Automatic  │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  SUBSCRIPTION                       │
+│  ┌───────────────────────────────┐  │
+│  │ Status: Active ✓              │  │
+│  │ Renews: December 14, 2025     │  │
+│  │                               │  │
+│  │ [Manage Subscription]         │  │ ← Opens App Store
+│  └───────────────────────────────┘  │
+│                                     │
+│  SECURITY                           │
+│  ┌───────────────────────────────┐  │
+│  │ Face ID Lock          [ON]    │  │
+│  │ Auto-lock          5 minutes  │  │
+│  │ Require authentication        │  │
+│  │   for sensitive chats  [OFF]  │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  ABOUT                              │
+│  ┌───────────────────────────────┐  │
+│  │ Version 1.0.0 (Build 42)      │  │
+│  │ Privacy Policy                │  │
+│  │ Terms of Service              │  │
+│  │ Contact Support               │  │
+│  └───────────────────────────────┘  │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Key Features:**
+- Model cards with download management
+- Visual progress indicators
+- Clear model descriptions
+- Simple toggle switches
+- Subscription status prominent
+- Security settings grouped
+
+### 5. Onboarding Flow
+
+```
+┌─────────────────────────────────────┐
+│              Screen 1/4             │
+├─────────────────────────────────────┤
+│                                     │
+│          [Large Icon]               │ ← App icon or illustration
+│             🔒                       │   Minimalist, monochrome
+│                                     │
+│                                     │
+│     Your AI That Keeps Secrets      │ ← Headline (Display Large)
+│                                     │
+│                                     │
+│   Everything stays on your iPhone.  │ ← Subheadline (Body Large)
+│   We literally never see your data. │
+│                                     │
+│                                     │
+│                                     │
+│                                     │
+│  ○ ○ ○ ○                           │ ← Progress dots
+│                                     │
+│         [Continue]                  │ ← Primary button
+│                                     │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│              Screen 2/4             │
+├─────────────────────────────────────┤
+│                                     │
+│          [Illustration]             │
+│        💬 📄 🎤 → 📱                │ ← Simple visual
+│                                     │
+│                                     │
+│    Chat, Documents, Voice           │
+│                                     │
+│                                     │
+│   Have natural conversations,       │
+│   analyze sensitive documents, and  │
+│   transcribe meetings - all         │
+│   processed locally on your device. │
+│                                     │
+│                                     │
+│  ○ ● ○ ○                           │
+│                                     │
+│  [Skip]              [Continue]     │
+│                                     │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│              Screen 3/4             │
+├─────────────────────────────────────┤
+│                                     │
+│          [Illustration]             │
+│         🚫☁️  ✓📱                   │
+│                                     │
+│                                     │
+│     No Cloud. No Uploads.           │
+│                                     │
+│                                     │
+│   Unlike ChatGPT or Claude, your    │
+│   conversations never leave your    │
+│   device. Perfect for lawyers,      │
+│   doctors, executives, and anyone   │
+│   who values privacy.               │
+│                                     │
+│                                     │
+│  ○ ○ ● ○                           │
+│                                     │
+│  [Skip]              [Continue]     │
+│                                     │
+└─────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│              Screen 4/4             │
+├─────────────────────────────────────┤
+│                                     │
+│     Start Your Free Trial           │
+│                                     │
+│                                     │
+│   ✓ 7 days completely free          │
+│   ✓ All features unlocked           │
+│   ✓ No credit card required         │
+│   ✓ Cancel anytime                  │
+│                                     │
+│                                     │
+│   After trial: $24.99/month         │
+│   Everything included. No limits.   │
+│                                     │
+│                                     │
+│                                     │
+│  ○ ○ ○ ●                           │
+│                                     │
+│      [Start Free Trial]             │ ← Primary CTA
+│                                     │
+│      Already have an account?       │ ← Secondary action
+│           Sign In                   │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Key Features:**
+- Minimal 4-screen flow
+- Clear value proposition progression
+- Skip option (but guide users through)
+- No forced account creation
+- Free trial with no friction
+
+### 6. Empty States
+
+**New Chat Empty State:**
+```
+┌─────────────────────────────────────┐
+│                                     │
+│                                     │
+│                                     │
+│          [Simple Icon]              │
+│             💬                       │
+│                                     │
+│       How can I help you?           │
+│                                     │
+│                                     │
+│  Try asking:                        │
+│  • Analyze this contract            │
+│  • Summarize these documents        │
+│  • Transcribe a meeting             │
+│  • Review this code                 │
+│                                     │
+│                                     │
+│                                     │
+├─────────────────────────────────────┤
+│  [🎤] ┃ Type a message... ┃ [📎]   │
+└─────────────────────────────────────┘
+```
+
+**No Documents Empty State:**
+```
+┌─────────────────────────────────────┐
+│                                     │
+│                                     │
+│          [Simple Icon]              │
+│             📄                       │
+│                                     │
+│      No documents yet               │
+│                                     │
+│                                     │
+│  Upload documents to analyze them   │
+│  in conversations, search across    │
+│  content, and keep everything       │
+│  private on your device.            │
+│                                     │
+│                                     │
+│      [Upload Document]              │
+│                                     │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+---
+
+## Technical Architecture
+
+### Application Structure
+
+```
+AppRoot/
+├── App/
+│   ├── AppDelegate.swift
+│   ├── SceneDelegate.swift
+│   └── AppCoordinator.swift
+│
+├── Models/
+│   ├── Core/
+│   │   ├── Conversation.swift
+│   │   ├── Message.swift
+│   │   ├── Document.swift
+│   │   └── AIModel.swift
+│   │
+│   ├── Inference/
+│   │   ├── InferenceRequest.swift
+│   │   ├── InferenceResponse.swift
+│   │   └── TokenStream.swift
+│   │
+│   └── Storage/
+│       ├── ConversationStore.swift
+│       ├── DocumentStore.swift
+│       └── VectorStore.swift
+│
+├── ViewModels/
+│   ├── ChatViewModel.swift
+│   ├── ConversationListViewModel.swift
+│   ├── DocumentLibraryViewModel.swift
+│   ├── SettingsViewModel.swift
+│   └── OnboardingViewModel.swift
+│
+├── Views/
+│   ├── Chat/
+│   │   ├── ChatView.swift
+│   │   ├── MessageBubble.swift
+│   │   ├── MessageInputBar.swift
+│   │   ├── DocumentReferenceCard.swift
+│   │   └── StreamingIndicator.swift
+│   │
+│   ├── ConversationList/
+│   │   ├── ConversationListView.swift
+│   │   ├── ConversationRow.swift
+│   │   └── SearchBar.swift
+│   │
+│   ├── Documents/
+│   │   ├── DocumentLibraryView.swift
+│   │   ├── DocumentCard.swift
+│   │   ├── DocumentPreview.swift
+│   │   └── DocumentUploader.swift
+│   │
+│   ├── Settings/
+│   │   ├── SettingsView.swift
+│   │   ├── ModelManagementView.swift
+│   │   ├── ModelCard.swift
+│   │   └── SubscriptionView.swift
+│   │
+│   ├── Onboarding/
+│   │   ├── OnboardingView.swift
+│   │   └── OnboardingPageView.swift
+│   │
+│   └── Components/
+│       ├── PrimaryButton.swift
+│       ├── SecondaryButton.swift
+│       ├── TextField.swift
+│       ├── Card.swift
+│       ├── ProgressBar.swift
+│       └── ToggleSwitch.swift
+│
+├── Services/
+│   ├── Inference/
+│   │   ├── InferenceEngine.swift
+│   │   ├── ModelManager.swift
+│   │   ├── CoreMLBridge.swift
+│   │   ├── TokenizerService.swift
+│   │   └── ContextAssembler.swift
+│   │
+│   ├── Document/
+│   │   ├── DocumentProcessor.swift
+│   │   ├── OCRService.swift
+│   │   ├── PDFExtractor.swift
+│   │   └── AudioTranscriber.swift
+│   │
+│   ├── Memory/
+│   │   ├── MemorySystem.swift
+│   │   ├── VectorDatabase.swift
+│   │   ├── EmbeddingGenerator.swift
+│   │   └── SemanticSearch.swift
+│   │
+│   ├── Storage/
+│   │   ├── LocalDatabase.swift
+│   │   ├── FileManager+Extensions.swift
+│   │   └── EncryptionService.swift
+│   │
+│   └── Security/
+│       ├── BiometricAuth.swift
+│       ├── KeychainManager.swift
+│       └── SecureStorage.swift
+│
+├── Utilities/
+│   ├── Extensions/
+│   │   ├── String+Extensions.swift
+│   │   ├── Date+Extensions.swift
+│   │   └── View+Extensions.swift
+│   │
+│   ├── Helpers/
+│   │   ├── TokenCounter.swift
+│   │   ├── FileHelper.swift
+│   │   └── Logger.swift
+│   │
+│   └── Constants/
+│       ├── AppConstants.swift
+│       ├── ModelConstants.swift
+│       └── UIConstants.swift
+│
+└── Resources/
+    ├── Models/
+    │   ├── fast-model.mlpackage
+    │   ├── embedding-model.mlpackage
+    │   └── whisper-tiny.mlpackage
+    │
+    ├── Assets.xcassets/
+    │   ├── Colors/
+    │   ├── Icons/
+    │   └── Images/
+    │
+    └── Localization/
+        └── en.lproj/
+```
+
+### Core Service Classes
+
+**InferenceEngine.swift**
+```swift
+import CoreML
+import Metal
+
+class InferenceEngine: ObservableObject {
+    // MARK: - Properties
+    private var currentModel: MLModel?
+    private let metalDevice: MTLDevice
+    private let tokenizer: TokenizerService
+    private let contextAssembler: ContextAssembler
+    
+    @Published var isInferring: Bool = false
+    @Published var tokensPerSecond: Double = 0
+    
+    // MARK: - Initialization
+    init() {
+        guard let device = MTLCreateSystemDefaultDevice() else {
+            fatalError("Metal not available")
+        }
+        self.metalDevice = device
+        self.tokenizer = TokenizerService()
+        self.contextAssembler = ContextAssembler()
+    }
+    
+    // MARK: - Model Management
+    func loadModel(_ model: AIModel) async throws {
+        let config = MLModelConfiguration()
+        config.computeUnits = .all // Use Neural Engine + GPU + CPU
+        config.allowLowPrecisionAccumulationOnGPU = true
+        
+        let modelURL = model.fileURL
+        self.currentModel = try await MLModel.load(
+            contentsOf: modelURL,
+            configuration: config
+        )
+    }
+    
+    // MARK: - Inference
+    func generate(
+        prompt: String,
+        conversation: Conversation,
+        documents: [Document],
+        maxTokens: Int = 1000,
+        temperature: Float = 0.7,
+        onToken: @escaping (String) -> Void
+    ) async throws -> String {
+        
+        isInferring = true
+        defer { isInferring = false }
+        
+        // Assemble context from conversation history + documents
+        let context = await contextAssembler.buildContext(
+            conversation: conversation,
+            documents: documents,
+            newPrompt: prompt,
+            maxContextTokens: 6000
+        )
+        
+        // Tokenize
+        let inputTokens = try tokenizer.encode(context)
+        
+        // Prepare Core ML input
+        let input = try prepareInput(tokens: inputTokens)
+        
+        // Stream generation
+        var generatedText = ""
+        var startTime = Date()
+        var tokenCount = 0
+        
+        for try await token in generateTokenStream(from: input, maxTokens: maxTokens) {
+            let text = tokenizer.decode([token])
+            generatedText += text
+            tokenCount += 1
+            
+            // Calculate tokens/sec
+            let elapsed = Date().timeIntervalSince(startTime)
+            tokensPerSecond = Double(tokenCount) / elapsed
+            
+            // Stream to UI
+            await MainActor.run {
+                onToken(text)
+            }
+            
+            // Check for stop conditions
+            if tokenizer.isStopToken(token) { break }
+        }
+        
+        return generatedText
+    }
+    
+    // MARK: - Private Helpers
+    private func prepareInput(tokens: [Int]) throws -> MLFeatureProvider {
+        // Convert tokens to Core ML input format
+        // Implementation depends on specific model architecture
+        // ...
+    }
+    
+    private func generateTokenStream(
+        from input: MLFeatureProvider,
+        maxTokens: Int
+    ) -> AsyncThrowingStream<Int, Error> {
+        AsyncThrowingStream { continuation in
+            Task {
+                do {
+                    guard let model = currentModel else {
+                        throw InferenceError.modelNotLoaded
+                    }
+                    
+                    var currentInput = input
+                    
+                    for _ in 0..<maxTokens {
+                        // Get next token prediction
+                        let output = try model.prediction(from: currentInput)
+                        let nextToken = try extractToken(from: output)
+                        
+                        continuation.yield(nextToken)
+                        
+                        // Update input for next iteration (append token)
+                        currentInput = try appendToken(nextToken, to: currentInput)
+                    }
+                    
+                    continuation.finish()
+                } catch {
+                    continuation.finish(throwing: error)
+                }
+            }
+        }
+    }
+    
+    private func extractToken(from output: MLFeatureProvider) throws -> Int {
+        // Extract highest probability token from model output
+        // Implementation depends on model output format
+        // ...
+    }
+    
+    private func appendToken(_ token: Int, to input: MLFeatureProvider) throws -> MLFeatureProvider {
+        // Append new token to input sequence for next iteration
+        // Implementation depends on model input format
+        // ...
+    }
+}
+
+enum InferenceError: Error {
+    case modelNotLoaded
+    case invalidInput
+    case generationFailed
+}
+```
+
+**ModelManager.swift**
+```swift
+import Foundation
+import Combine
+
+class ModelManager: ObservableObject {
+    // MARK: - Published Properties
+    @Published var availableModels: [AIModel] = []
+    @Published var activeModel: AIModel?
+    @Published var downloadProgress: [String: Double] = [:]
+    
+    // MARK: - Private Properties
+    private let fileManager = FileManager.default
+    private let modelsDirectory: URL
+    private var downloadTasks: [String: URLSessionDownloadTask] = [:]
+    
+    // MARK: - Initialization
+    init() {
+        // Set up models directory
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        self.modelsDirectory = documentsURL.appendingPathComponent("Models")
+        
+        // Create directory if needed
+        try? fileManager.createDirectory(at: modelsDirectory, withIntermediateDirectories: true)
+        
+        // Load available models
+        loadAvailableModels()
+    }
+    
+    // MARK: - Model Selection
+    func selectOptimalModel(
+        for task: InferenceTask,
+        batteryLevel: Float,
+        availableMemory: UInt64
+    ) -> AIModel {
+        
+        // Low battery override
+        if batteryLevel < 0.2 {
+            return findModel(byType: .fast) ?? availableModels[0]
+        }
+        
+        // Task complexity analysis
+        let complexity = task.complexity
+        
+        switch complexity {
+        case 0..<0.3:
+            // Simple tasks -> Fast model
+            return findModel(byType: .fast) ?? activeModel ?? availableModels[0]
+            
+        case 0.3..<0.7:
+            // Medium tasks -> Balanced model
+            return findModel(byType: .balanced) ?? findModel(byType: .fast) ?? availableModels[0]
+            
+        case 0.7...1.0:
+            // Complex tasks -> Advanced model (if available and enough resources)
+            if availableMemory > 8_000_000_000 { // 8GB
+                return findModel(byType: .advanced) ?? findModel(byType: .balanced) ?? availableModels[0]
+            } else {
+                return findModel(byType: .balanced) ?? availableModels[0]
+            }
+            
+        default:
+            return activeModel ?? availableModels[0]
+        }
+    }
+    
+    // MARK: - Model Download
+    func downloadModel(_ model: AIModel, completion: @escaping (Result<URL, Error>) -> Void) {
+        guard !model.isDownloaded else {
+            completion(.success(model.fileURL))
+            return
+        }
+        
+        let downloadURL = model.downloadURL
+        let destinationURL = modelsDirectory.appendingPathComponent(model.filename)
+        
+        let task = URLSession.shared.downloadTask(with: downloadURL) { [weak self] location, response, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let location = location else {
+                completion(.failure(ModelError.downloadFailed))
+                return
+            }
+            
+            do {
+                // Move downloaded file to models directory
+                if self.fileManager.fileExists(atPath: destinationURL.path) {
+                    try self.fileManager.removeItem(at: destinationURL)
+                }
+                try self.fileManager.moveItem(at: location, to: destinationURL)
+                
+                // Update model status
+                DispatchQueue.main.async {
+                    if let index = self.availableModels.firstIndex(where: { $0.id == model.id }) {
+                        self.availableModels[index].isDownloaded = true
+                        self.availableModels[index].fileURL = destinationURL
+                    }
+                }
+                
+                completion(.success(destinationURL))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        
+        // Track progress
+        let observation = task.progress.observe(\.fractionCompleted) { [weak self] progress, _ in
+            DispatchQueue.main.async {
+                self?.downloadProgress[model.id] = progress.fractionCompleted
+            }
+        }
+        
+        downloadTasks[model.id] = task
+        task.resume()
+    }
+    
+    func pauseDownload(_ model: AIModel) {
+        downloadTasks[model.id]?.cancel()
+    }
+    
+    func deleteModel(_ model: AIModel) throws {
+        guard model.isDownloaded else { return }
+        
+        try fileManager.removeItem(at: model.fileURL)
+        
+        if let index = availableModels.firstIndex(where: { $0.id == model.id }) {
+            availableModels[index].isDownloaded = false
+        }
+    }
+    
+    // MARK: - Private Helpers
+    private func loadAvailableModels() {
+        // Define available models
+        availableModels = [
+            AIModel(
+                id: "fast-model",
+                name: "Fast Model",
+                type: .fast,
+                size: 2_800_000_000, // 2.8GB
+                parameterCount: "3.8B",
+                quantization: "4-bit",
+                isDownloaded: true, // Bundled with app
+                isBundled: true,
+                capabilities: [.chat, .document],
+                speedRating: 5,
+                qualityRating: 3
+            ),
+            AIModel(
+                id: "balanced-model",
+                name: "Balanced Model",
+                type: .balanced,
+                size: 4_700_000_000, // 4.7GB
+                parameterCount: "8B",
+                quantization: "4-bit",
+                isDownloaded: false,
+                isBundled: false,
+                capabilities: [.chat, .document, .analysis],
+                speedRating: 4,
+                qualityRating: 4
+            ),
+            AIModel(
+                id: "advanced-model",
+                name: "Advanced Model",
+                type: .advanced,
+                size: 7_200_000_000, // 7.2GB
+                parameterCount: "11B",
+                quantization: "4-bit",
+                isDownloaded: false,
+                isBundled: false,
+                capabilities: [.chat, .document, .analysis, .reasoning],
+                speedRating: 3,
+                qualityRating: 5
+            ),
+            AIModel(
+                id: "code-model",
+                name: "Code Model",
+                type: .code,
+                size: 4_900_000_000, // 4.9GB
+                parameterCount: "7B",
+                quantization: "4-bit",
+                isDownloaded: false,
+                isBundled: false,
+                capabilities: [.code],
+                speedRating: 4,
+                qualityRating: 4
+            )
+        ]
+        
+        // Set initial active model to fast (bundled)
+        activeModel = availableModels.first { $0.isBundled }
+    }
+    
+    private func findModel(byType type: ModelType) -> AIModel? {
+        return availableModels.first { $0.type == type && $0.isDownloaded }
+    }
+}
+
+enum ModelError: Error {
+    case downloadFailed
+    case modelNotFound
+    case insufficientStorage
+}
+```
+
+**DocumentProcessor.swift**
+```swift
+import Vision
+import PDFKit
+import AVFoundation
+
+class DocumentProcessor {
+    
+    // MARK: - Text Extraction
+    func extractText(from document: Document) async throws -> String {
+        switch document.fileType {
+        case .pdf:
+            return try await extractTextFromPDF(url: document.fileURL)
+        case .image:
+            return try await performOCR(on: document.fileURL)
+        case .text:
+            return try String(contentsOf: document.fileURL)
+        case .audio:
+            throw DocumentError.unsupportedOperation
+        }
+    }
+    
+    // MARK: - PDF Processing
+    private func extractTextFromPDF(url: URL) async throws -> String {
+        guard let pdfDocument = PDFDocument(url: url) else {
+            throw DocumentError.invalidFile
+        }
+        
+        var fullText = ""
+        
+        for pageIndex in 0..<pdfDocument.pageCount {
+            guard let page = pdfDocument.page(at: pageIndex) else { continue }
+            
+            if let pageText = page.string {
+                fullText += pageText + "\n\n"
+            } else {
+                // Fallback to OCR if no text layer
+                if let pageImage = page.thumbnail(of: CGSize(width: 2048, height: 2048), for: .mediaBox) {
+                    let ocrText = try await performOCR(on: pageImage)
+                    fullText += ocrText + "\n\n"
+                }
+            }
+        }
+        
+        return fullText.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    // MARK: - OCR
+    func performOCR(on imageURL: URL) async throws -> String {
+        guard let image = UIImage(contentsOfFile: imageURL.path),
+              let cgImage = image.cgImage else {
+            throw DocumentError.invalidFile
+        }
+        
+        return try await performOCR(on: image)
+    }
+    
+    func performOCR(on image: UIImage) async throws -> String {
+        guard let cgImage = image.cgImage else {
+            throw DocumentError.invalidFile
+        }
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            let request = VNRecognizeTextRequest { request, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                
+                guard let observations = request.results as? [VNRecognizedTextObservation] else {
+                    continuation.resume(returning: "")
+                    return
+                }
+                
+                let recognizedText = observations.compactMap { observation in
+                    observation.topCandidates(1).first?.string
+                }.joined(separator: "\n")
+                
+                continuation.resume(returning: recognizedText)
+            }
+            
+            // Configure for accuracy
+            request.recognitionLevel = .accurate
+            request.usesLanguageCorrection = true
+            
+            let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    try handler.perform([request])
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
+    // MARK: - Document Chunking
+    func chunkDocument(
+        _ text: String,
+        maxChunkSize: Int = 1000,
+        overlap: Int = 200
+    ) -> [TextChunk] {
+        var chunks: [TextChunk] = []
+        let sentences = text.components(separatedBy: CharacterSet(charactersIn: ".!?"))
+        
+        var currentChunk = ""
+        var currentTokenCount = 0
+        var chunkIndex = 0
+        
+        for sentence in sentences {
+            let trimmed = sentence.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else { continue }
+            
+            let sentenceTokens = estimateTokenCount(trimmed)
+            
+            if currentTokenCount + sentenceTokens > maxChunkSize && !currentChunk.isEmpty {
+                // Save current chunk
+                chunks.append(TextChunk(
+                    id: UUID(),
+                    text: currentChunk,
+                    index: chunkIndex,
+                    tokenCount: currentTokenCount
+                ))
+                
+                chunkIndex += 1
+                
+                // Start new chunk with overlap
+                if overlap > 0 {
+                    let overlapText = getLastSentences(from: currentChunk, tokenCount: overlap)
+                    currentChunk = overlapText
+                    currentTokenCount = estimateTokenCount(overlapText)
+                } else {
+                    currentChunk = ""
+                    currentTokenCount = 0
+                }
+            }
+            
+            currentChunk += trimmed + ". "
+            currentTokenCount += sentenceTokens
+        }
+        
+        // Add final chunk
+        if !currentChunk.isEmpty {
+            chunks.append(TextChunk(
+                id: UUID(),
+                text: currentChunk,
+                index: chunkIndex,
+                tokenCount: currentTokenCount
+            ))
+        }
+        
+        return chunks
+    }
+    
+    // MARK: - Summarization
+    func summarize(
+        _ document: Document,
+        style: SummaryStyle,
+        using inferenceEngine: InferenceEngine
+    ) async throws -> String {
+        let text = try await extractText(from: document)
+        
+        let systemPrompt: String
+        switch style {
+        case .brief:
+            systemPrompt = "Provide a brief 2-3 sentence summary of the key points."
+        case .detailed:
+            systemPrompt = "Provide a detailed summary covering main points, key findings, and conclusions."
+        case .executive:
+            systemPrompt = "Provide an executive summary with key takeaways and actionable insights."
+        }
+        
+        let prompt = """
+        \(systemPrompt)
+        
+        Document:
+        \(text)
+        
+        Summary:
+        """
+        
+        return try await inferenceEngine.generate(
+            prompt: prompt,
+            conversation: Conversation.empty,
+            documents: [],
+            maxTokens: style == .brief ? 200 : 1000,
+            onToken: { _ in }
+        )
+    }
+    
+    // MARK: - Private Helpers
+    private func estimateTokenCount(_ text: String) -> Int {
+        // Rough estimate: ~4 characters per token
+        return text.count / 4
+    }
+    
+    private func getLastSentences(from text: String, tokenCount: Int) -> String {
+        let sentences = text.components(separatedBy: CharacterSet(charactersIn: ".!?"))
+        var result = ""
+        var count = 0
+        
+        for sentence in sentences.reversed() {
+            let tokens = estimateTokenCount(sentence)
+            if count + tokens > tokenCount { break }
+            result = sentence + ". " + result
+            count += tokens
+        }
+        
+        return result
+    }
+}
+
+enum DocumentError: Error {
+    case invalidFile
+    case unsupportedFormat
+    case unsupportedOperation
+    case processingFailed
+}
+
+enum SummaryStyle {
+    case brief
+    case detailed
+    case executive
+}
+
+struct TextChunk: Identifiable {
+    let id: UUID
+    let text: String
+    let index: Int
+    let tokenCount: Int
+}
+```
+
+**VectorDatabase.swift**
+```swift
+import Foundation
+import Accelerate
+
+class VectorDatabase {
+    
+    // MARK: - Properties
+    private var embeddings: [String: [Float]] = [:] // document_id -> embedding
+    private var metadata: [String: DocumentMetadata] = [:]
+    private let embeddingGenerator: EmbeddingGenerator
+    private let dimension: Int = 384 // Embedding dimension
+    
+    // Simple nearest neighbor index
+    private var indexedEmbeddings: [(id: String, embedding: [Float])] = []
+    
+    // MARK: - Initialization
+    init(embeddingGenerator: EmbeddingGenerator) {
+        self.embeddingGenerator = embeddingGenerator
+    }
+    
+    // MARK: - Storage
+    func store(documentId: String, text: String, metadata: DocumentMetadata) async throws {
+        // Generate embedding
+        let embedding = try await embeddingGenerator.embed(text: text)
+        
+        // Store
+        embeddings[documentId] = embedding
+        self.metadata[documentId] = metadata
+        indexedEmbeddings.append((id: documentId, embedding: embedding))
+    }
+    
+    func remove(documentId: String) {
+        embeddings.removeValue(forKey: documentId)
+        metadata.removeValue(forKey: documentId)
+        indexedEmbeddings.removeAll { $0.id == documentId }
+    }
+    
+    // MARK: - Search
+    func search(
+        query: String,
+        topK: Int = 5,
+        threshold: Float = 0.7
+    ) async throws -> [SearchResult] {
+        
+        // Generate query embedding
+        let queryEmbedding = try await embeddingGenerator.embed(text: query)
+        
+        // Calculate similarities
+        var results: [(id: String, score: Float)] = []
+        
+        for (id, embedding) in indexedEmbeddings {
+            let similarity = cosineSimilarity(queryEmbedding, embedding)
+            if similarity >= threshold {
+                results.append((id: id, score: similarity))
+            }
+        }
+        
+        // Sort by similarity (descending)
+        results.sort { $0.score > $1.score }
+        
+        // Take top K
+        let topResults = results.prefix(topK)
+        
+        // Map to SearchResult
+        return topResults.compactMap { result in
+            guard let meta = metadata[result.id] else { return nil }
+            return SearchResult(
+                documentId: result.id,
+                score: result.score,
+                metadata: meta
+            )
+        }
+    }
+    
+    // MARK: - Similarity Calculation
+    private func cosineSimilarity(_ a: [Float], _ b: [Float]) -> Float {
+        guard a.count == b.count else { return 0 }
+        
+        var dotProduct: Float = 0
+        var magnitudeA: Float = 0
+        var magnitudeB: Float = 0
+        
+        vDSP_dotpr(a, 1, b, 1, &dotProduct, vDSP_Length(a.count))
+        vDSP_svesq(a, 1, &magnitudeA, vDSP_Length(a.count))
+        vDSP_svesq(b, 1, &magnitudeB, vDSP_Length(b.count))
+        
+        magnitudeA = sqrt(magnitudeA)
+        magnitudeB = sqrt(magnitudeB)
+        
+        guard magnitudeA > 0 && magnitudeB > 0 else { return 0 }
+        
+        return dotProduct / (magnitudeA * magnitudeB)
+    }
+    
+    // MARK: - Persistence
+    func save(to url: URL) throws {
+        let data = try JSONEncoder().encode(StorableDatabase(
+            embeddings: embeddings,
+            metadata: metadata
+        ))
+        try data.write(to: url)
+    }
+    
+    func load(from url: URL) throws {
+        let data = try Data(contentsOf: url)
+        let stored = try JSONDecoder().decode(StorableDatabase.self, from: data)
+        self.embeddings = stored.embeddings
+        self.metadata = stored.metadata
+        
+        // Rebuild index
+        indexedEmbeddings = embeddings.map { (id: $0.key, embedding: $0.value) }
+    }
+}
+
+// MARK: - Supporting Types
+struct SearchResult {
+    let documentId: String
+    let score: Float
+    let metadata: DocumentMetadata
+}
+
+struct DocumentMetadata: Codable {
+    let title: String
+    let fileType: DocumentType
+    let addedAt: Date
+    let size: Int64
+}
+
+struct StorableDatabase: Codable {
+    let embeddings: [String: [Float]]
+    let metadata: [String: DocumentMetadata]
+}
+```
+
+---
+
+## Data Models
+
+```swift
+// MARK: - Conversation
+struct Conversation: Identifiable, Codable {
+    let id: UUID
+    var title: String
+    var messages: [Message]
+    var createdAt: Date
+    var updatedAt: Date
+    var model: String // Model ID used
+    
+    static var empty: Conversation {
+        Conversation(
+            id: UUID(),
+            title: "New Chat",
+            messages: [],
+            createdAt: Date(),
+            updatedAt: Date(),
+            model: "fast-model"
+        )
+    }
+}
+
+// MARK: - Message
+struct Message: Identifiable, Codable {
+    let id: UUID
+    var role: MessageRole
+    var content: String
+    var timestamp: Date
+    var attachments: [String] // Document IDs
+    var tokenCount: Int
+    var inferenceTime: TimeInterval?
+    var modelUsed: String?
+    
+    enum MessageRole: String, Codable {
+        case user
+        case assistant
+        case system
+    }
+}
+
+// MARK: - Document
+struct Document: Identifiable, Codable {
+    let id: UUID
+    var filename: String
+    var fileURL: URL
+    var fileType: DocumentType
+    var fileSize: Int64
+    var extractedText: String?
+    var hasEmbedding: Bool
+    var addedAt: Date
+    var lastAccessedAt: Date
+    var usageCount: Int
+    var tags: [String]
+    
+    enum DocumentType: String, Codable {
+        case pdf
+        case image
+        case text
+        case audio
+        case spreadsheet
+        case other
+    }
+}
+
+// MARK: - AI Model
+struct AIModel: Identifiable, Codable {
+    let id: String
+    var name: String
+    var type: ModelType
+    var size: Int64 // bytes
+    var parameterCount: String // "8B"
+    var quantization: String // "4-bit"
+    var isDownloaded: Bool
+    var isBundled: Bool
+    var fileURL: URL
+    var downloadURL: URL
+    var capabilities: [ModelCapability]
+    var speedRating: Int // 1-5
+    var qualityRating: Int // 1-5
+    
+    var filename: String {
+        "\(id).mlpackage"
+    }
+    
+    enum ModelType: String, Codable {
+        case fast
+        case balanced
+        case advanced
+        case code
+        case voice
+    }
+    
+    enum ModelCapability: String, Codable {
+        case chat
+        case document
+        case analysis
+        case reasoning
+        case code
+        case voice
+    }
+}
+
+// MARK: - Inference Task
+struct InferenceTask {
+    let prompt: String
+    let attachedDocuments: [Document]
+    let conversationHistory: [Message]
+    
+    var complexity: Float {
+        var score: Float = 0.0
+        
+        // Long prompts likely complex
+        score += min(Float(prompt.count) / 1000, 0.3)
+        
+        // Keywords indicating complexity
+        let complexKeywords = ["analyze", "compare", "synthesize", "evaluate", "assess", "contrast"]
+        let hasComplexKeyword = complexKeywords.contains { prompt.lowercased().contains($0) }
+        score += hasComplexKeyword ? 0.3 : 0.0
+        
+        // Multiple documents referenced
+        if attachedDocuments.count > 3 {
+            score += 0.4
+        } else if attachedDocuments.count > 0 {
+            score += 0.2
+        }
+        
+        return min(score, 1.0)
+    }
+}
+```
+
+---
+
+## Performance Targets
+
+### Inference Speed
+- Fast Model (3.8B): 80-100 tokens/sec on iPhone 14+
+- Balanced Model (8B): 40-50 tokens/sec on iPhone 14+
+- Advanced Model (11B): 25-35 tokens/sec on iPhone 14+
+
+### Battery Usage
+- Active inference: <5% battery per hour
+- Idle with app open: <1% per hour
+- Background (if enabled): <0.5% per hour
+
+### Memory Usage
+- Fast Model loaded: ~3GB RAM
+- Balanced Model loaded: ~5GB RAM
+- Advanced Model loaded: ~8GB RAM
+- Base app without model: ~200MB
+
+### App Size
+- Initial download: <500MB (with bundled fast model)
+- With all models downloaded: ~15GB total
+
+### Response Times
+- Cold start: <2 seconds
+- Model switching: <3 seconds
+- First token latency: <500ms
+- Document upload: <1 second per MB
+- OCR processing: <2 seconds per page
+
+---
+
+## Security Requirements
+
+### Data Protection
+- All documents encrypted at rest (AES-256)
+- Encryption keys stored in Secure Enclave
+- Secure memory wiping after inference
+- No data ever leaves device
+
+### Authentication
+- Face ID / Touch ID required for app access
+- Optional: Re-authentication for sensitive conversations
+- Auto-lock after 5 minutes idle (configurable)
+
+### Privacy Guarantees
+- Zero telemetry/analytics
+- No crash reporting (can't read crash logs)
+- No network requests except model downloads
+- App Store privacy nutrition label: "No Data Collected"
+
+---
+
+## Testing Strategy
+
+### Unit Tests
+- Model loading/unloading
+- Tokenization accuracy
+- Document extraction
+- Vector similarity calculations
+- Encryption/decryption
+
+### Integration Tests
+- End-to-end inference pipeline
+- Document upload → process → chat
+- Model switching during conversation
+- Memory management under load
+
+### Performance Tests
+- Inference speed benchmarks
+- Battery drain measurements
+- Memory leak detection
+- Cold start timing
+- Large document handling (100+ pages)
+
+### Device Testing Matrix
+- iPhone 12 (A14 - minimum)
+- iPhone 13 Pro (A15)
+- iPhone 14 Pro (A16)
+- iPhone 15 Pro (A17)
+- iPad Pro M1/M2
+
+---
+
+## Launch Checklist
+
+### Pre-Launch (Week -4)
+- [ ] TestFlight beta with 50-100 users
+- [ ] Gather feedback and testimonials
+- [ ] Create App Store screenshots (all sizes)
+- [ ] Record demo video (30-60 seconds)
+- [ ] Write App Store description
+- [ ] Set up landing page
+- [ ] Prepare press kit
+
+### Launch Week
+- [ ] Submit to App Store (aim for Thursday release)
+- [ ] Product Hunt submission
+- [ ] Post to relevant subreddits
+- [ ] Email beta users
+- [ ] Social media announcements
+- [ ] Monitor reviews and respond
+
+### Post-Launch (Week +1 to +4)
+- [ ] Daily review monitoring
+- [ ] Rapid bug fixes if needed
+- [ ] User feedback analysis
+- [ ] Plan first update based on feedback
+- [ ] Begin content marketing (blog posts)
+- [ ] Reach out to press/reviewers
+
+---
+
+## Future Enhancements (Post-V1)
+
+### Phase 2 Features
+- iPad optimization with split-view
+- Apple Watch companion (view recent chats)
+- Shortcuts integration
+- Siri integration
+- Widget for quick access
+- Background document processing
+
+### Phase 3 Features
+- Specialized models (Medical, Legal, Financial)
+- Custom model fine-tuning (user's data)
+- Team collaboration features
+- Encrypted cloud backup (user-controlled keys)
+- API access for developers
+- Mac app (Catalyst or native)
+
+### Phase 4 Features
+- Real-time collaboration
+- Voice conversations (not just transcription)
+- Image generation (local Stable Diffusion)
+- Advanced automation/workflows
+- Integration with professional tools
+
+---
+
+## Success Metrics
+
+### Week 1
+- 1,000 downloads
+- 100 trial starts
+- 10 paid conversions
+
+### Month 1
+- 5,000 downloads
+- 500 trial starts
+- 75 paid users ($1,875 MRR)
+
+### Month 6
+- 25,000 downloads
+- 2,500 trial starts
+- 500 paid users ($12,500 MRR)
+
+### Month 12
+- 100,000 downloads
+- 10,000 trial starts
+- 2,000 paid users ($50,000 MRR)
+
+### Key Ratios to Track
+- Download → Trial: Target 10%
+- Trial → Paid: Target 15%
+- Monthly churn: Target <5%
+- DAU/MAU: Target >40%
+- NPS: Target >50
+
+---
+
+This blueprint provides everything needed to build a production-ready, privacy-first AI assistant for iOS with a clean, professional UI and robust technical architecture.
+```
+
+This blueprint covers:
+- **Complete UI design** with monochrome ChatGPT-inspired aesthetic
+- **Comprehensive technical architecture** with all core services
+- **Data models** and their relationships
+- **Performance targets** and optimization strategies
+- **Security requirements** for privacy-first approach
+- **Testing strategy** and launch checklist
+- **Future roadmap** for post-launch features
+
+The design emphasizes clean lines, clear messaging (🔒 for local processing), and optimal functionality. Everything from the color palette to the service layer is production-ready.
+
+Ready to start building? I'd recommend beginning with the chat interface and inference engine first - get that core loop working, then layer in documents, voice, and advanced features.
